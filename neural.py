@@ -35,15 +35,7 @@ while epoch < 100000:
     epoch+=1
 
 print(f'final weights are : {weights}')
-print(f'this model has {ms.fabs(np.sum(mse))*10} error on train')
-df2 = pd.read_csv('test.csv')
-inputs = np.array(df2.loc[:,['area','bedrooms','bathrooms','stories','parking']])
-expected = np.array(df2.loc[:,'price'])
-output = np.dot(inputs,weights) + bias
-mse = output - expected
-
-
-print(f'this model has {np.sum(mse)} error on test')
+print(f'this model has {(np.sum(mse))} error on train')
 
 plt.plot(MSE)
 plt.show()
