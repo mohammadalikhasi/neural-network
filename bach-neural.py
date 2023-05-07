@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import math as ms
-import random as rd
+
 df = pd.read_csv('trainhouse.csv')
 
 
@@ -10,23 +10,33 @@ df = pd.read_csv('trainhouse.csv')
 inputs = np.array(df.loc[:,['area','bedrooms','bathrooms','stories','parking']])
 expected = np.array(df.loc[:,'price'])
 
+batches_input = [inputs[0:80,:],inputs[80:160,:],inputs[160:240,:],inputs[240:320,:],inputs[320:,:]]
+batches_expected = [expected[0:80],expected[80:160],expected[160:240],expected[240:320],expected[320:]]
 
 weights = np.array([20000,500000,500000,500000,500000])
 bias = 1000000
 
 epoch = 0
 MSE = []
+bach_select = 0
+
+
 while epoch < 10000:
-    random_number =int(rd.random() * len(inputs)) - 1
-    output = np.dot(inputs[random_number],weights) + bias
-    mse = output - expected[random_number]
+    bach_select %= len(batches_input)
+    output = np.dot(batches_input[bach_select],weights) + bias
+    mse = output - expected[bach_select]
+    mse_amount = 0
     if epoch < 200:
-        MSE.append(mse ** 2)
+        for i in mse:
+            mse_amount += i**2
+        MSE.append(mse_amount)
     for i in range(5):
         weight_change = 0
-        weight_change += 2*mse*inputs[random_number][i]
+        for j in range(len(mse)):
+            weight_change += 2*mse[j]*batches_input[bach_select][j][i]
+        weights[i] -= 0.000000000001*weight_change
         
-    weights[i] -= 0.000000000001*weight_change
+    bach_select += 1
     epoch+=1
 
 print(f'final weights are : {weights}')
