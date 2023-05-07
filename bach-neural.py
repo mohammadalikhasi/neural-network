@@ -10,6 +10,7 @@ df = pd.read_csv('trainhouse.csv')
 inputs = np.array(df.loc[:,['area','bedrooms','bathrooms','stories','parking']])
 expected = np.array(df.loc[:,'price'])
 
+# at first we divide our dataset to 5 batches
 batches_input = [inputs[0:80,:],inputs[80:160,:],inputs[160:240,:],inputs[240:320,:],inputs[320:,:]]
 batches_expected = [expected[0:80],expected[80:160],expected[160:240],expected[240:320],expected[320:]]
 
@@ -22,6 +23,7 @@ bach_select = 0
 
 
 while epoch < 10000:
+    # in every epoch we choose a batch and we run gradiant descent on it
     bach_select %= len(batches_input)
     output = np.dot(batches_input[bach_select],weights) + bias
     mse = output - expected[bach_select]

@@ -18,14 +18,14 @@ bias = 1000000
 epoch = 0
 MSE = []
 list_of_labels =['area','bedrooms','bathrooms','stories','parking']
-# normilizing input
+# normilizing input our normilization method is min-max
 for i in range(5):
     max_number = max(np.array(df.loc[:,list_of_labels[i]]))
     min_number = min(np.array(df.loc[:,list_of_labels[i]]))
     for j in range(0,len(expected)):
         weighted_input[j][i] = (float)((inputs[j][i] - min_number) /(max_number - min_number))
 
-#normilizing output
+# normilizing output our normilization method is min-max
 max_number = max(np.array(df.loc[:,'price']))
 min_number = min(np.array(df.loc[:,'price']))
 for j in range(0,len(expected)):

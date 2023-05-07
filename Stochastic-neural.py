@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math as ms
 import random as rd
+
+# using pandas library for extracting data from excel to a datagram
 df = pd.read_csv('trainhouse.csv')
 
 
@@ -17,6 +19,7 @@ bias = 1000000
 epoch = 0
 MSE = []
 while epoch < 10000:
+    # we produce a random number for choosing our record for schotastic training
     random_number =int(rd.random() * len(inputs)) - 1
     output = np.dot(inputs[random_number],weights) + bias
     mse = output - expected[random_number]
