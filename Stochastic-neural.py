@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import math as ms
-
+import random as rd
 df = pd.read_csv('trainhouse.csv')
 
 
@@ -16,18 +16,15 @@ bias = 1000000
 
 epoch = 0
 MSE = []
-while epoch < 100000:
-    output = np.dot(inputs,weights) + bias
-    mse = output - expected
-    mse_amount = 0
+while epoch < 1000:
+    random_number =int(rd.random() * len(inputs)) - 1
+    output = np.dot(inputs[random_number],weights) + bias
+    mse = output - expected[random_number]
     if epoch < 200:
-        for i in mse:
-            mse_amount += i**2
-        MSE.append(mse_amount/len(mse))
+        MSE.append(mse ** 2)
     for i in range(5):
         weight_change = 0
-        for j in range(len(mse)):
-            weight_change += 2*mse[j]*inputs[j][i]
+        weight_change += 2*mse*inputs[random_number][i]
         if (i == 0):
             weights[i] -= 0.000000000001*weight_change
         else:
@@ -35,6 +32,15 @@ while epoch < 100000:
     epoch+=1
 
 print(f'final weights are : {weights}')
-print(f'this model has {abs(np.sum(mse))} error on train')
+print(f'this model has {(np.sum(mse))} error on train')
+df2 = pd.read_csv('test.csv')
+inputs = np.array(df2.loc[:,['area','bedrooms','bathrooms','stories','parking']])
+expected = np.array(df2.loc[:,'price'])
+output = np.dot(inputs,weights) + bias
+mse = output - expected
+
+
+print(f'this model has {np.sum(mse)} error on test')
+
 plt.plot(MSE)
 plt.show()
