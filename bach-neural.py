@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math as ms
 
 df = pd.read_csv('trainhouse.csv')
-
+#git
 
 
 inputs = np.array(df.loc[:,['area','bedrooms','bathrooms','stories','parking']])
