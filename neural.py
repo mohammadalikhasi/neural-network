@@ -5,7 +5,7 @@ import math as ms
 
 # using pandas library for extracting data from excel to a datagram
 df = pd.read_csv('trainhouse.csv')
-
+# test
 
 # we use pandas array for our input and output
 inputs = np.array(df.loc[:,['area','bedrooms','bathrooms','stories','parking']])
